@@ -15,10 +15,26 @@
 This is the Link,Which directs to the Datasheet of the VSDsquadran mini board.
 
  ```
-         [DataSheet](https://www.vlsisystemdesign.com/wp-content/uploads/2024/01/VSDSQMinidatasheet.pdf)
+ [DataSheet](https://www.vlsisystemdesign.com/wp-content/uploads/2024/01/VSDSQMinidatasheet.pdf)
  ```
 </details>
 <details>
 <summary><b>Task 1:</b> Installing RISC-V toolchain and Refer to C and RISC-V based lab videos </summary>   
 <br>
+The installation of the ubuntu is done successfully.
+ 
+![task1_in ubuntu](https://github.com/user-attachments/assets/b58de310-1570-4bd4-aee6-19f33308eaae)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
