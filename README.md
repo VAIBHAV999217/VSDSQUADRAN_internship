@@ -512,9 +512,26 @@ mkdir vaibhav03_testbench
 
 ![task4_waveform](https://github.com/user-attachments/assets/3aa3becc-ccb4-44a9-8871-5786f3d6cc83)
 
+</details>
+<details>
+<summary><b>Task 5:</b>FinalProject</summary>   
+<br>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+</details>
 
 
 
