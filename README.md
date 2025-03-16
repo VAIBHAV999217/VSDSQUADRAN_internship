@@ -21,9 +21,76 @@ This is the Link,Which directs to the Datasheet of the VSDsquadran mini board.
 <details>
 <summary><b>Task 1:</b> Installing RISC-V toolchain and Refer to C and RISC-V based lab videos </summary>   
 <br>
+
+## 1. C-Based Activities
 The installation of the ubuntu is done successfully.
  
 ![task1_in ubuntu](https://github.com/user-attachments/assets/b58de310-1570-4bd4-aee6-19f33308eaae)
+
+Open terminal inside Ubuntu,Now Install leafpad editor for C programming using command
+
+ ```
+         sudo apt  install leafpad
+ ```
+After Installing leafpad, create a file to write a simple code to calculate sum of 1 to n.
+
+![task1_c_programming](https://github.com/user-attachments/assets/6917993c-f059-451c-bf82-d62cec17a26c)
+
+Run the program and check the results using commands
+ ````
+gcc sum1ton.c
+./a.out 
+````
+result :
+
+![task1_results](https://github.com/user-attachments/assets/498aac41-0006-4d33-991c-06e9cc41a158)
+
+## 2.RISC Based Activities
+Compile the C code using the RISC V Processor, and check the output
+
+ the below command compiles the c program using risc v compiler
+  
+    riscv64-unknown-elf-gcc -o1 -mabi=lp64 -march=rv64i -o 1ton.o 1ton.c
+
+  This command generates an assembly code for the program
+
+    riscv64-unknown-elf-objdump -d 1ton.o | less
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
