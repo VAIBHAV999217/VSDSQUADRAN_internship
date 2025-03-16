@@ -80,7 +80,11 @@ now we have to locate the main section
 
 ![task1_riscv4 (1)](https://github.com/user-attachments/assets/ff64442d-021b-42bc-b761-e12d6ce6354c)
 
+</details>
 
+<details>
+<summary><b>Task 2:</b> SPIKE Simulation </summary> 
+Write a C code to find the lcm of 2 numbers. Compile it using the RISC compiler and simulate it using the spike simulation. Observe the -o1 and -ofast response and debug the assembly level code using spike
 
 
 
