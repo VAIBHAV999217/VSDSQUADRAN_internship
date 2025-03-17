@@ -503,7 +503,7 @@ mkdir vaibhav03_testbench
 ![task4_testbenchcode](https://github.com/user-attachments/assets/59a42ba9-067c-4950-8534-76f616804a9e)
 
 - **Output Just before simulating the Waveform**
-- 
+  
 ![task4_4](https://github.com/user-attachments/assets/d590220f-73da-4c9a-9cf2-ca4a475f2e97)
 
 ![task4_5](https://github.com/user-attachments/assets/fc6e3865-8935-4415-9c40-8b5fd95cb19d)
@@ -517,21 +517,123 @@ mkdir vaibhav03_testbench
 <summary><b>Task 5:</b>FinalProject</summary>   
 <br>
 
+# Alert System Using Ultrasonic Sensor
 
+## Project Overview
+The "Alert System Using Ultrasonic Sensor" is a project designed to detect nearby objects and provide a visual alert through an LED indicator. This system utilizes an ultrasonic sensor to measure the distance to an object and activates the LED when the object is within a specified threshold distance. This project can be applied in various scenarios, such as obstacle detection in robotics, water level monitoring, and safety systems.
 
+## Features
+- **Object Detection**: Measures the distance to nearby objects using an ultrasonic sensor.
+- **Visual Alert**: Activates an LED indicator when an object is detected within a specified distance.
+- **Real-time Monitoring**: Continuously monitors the environment and updates the alert status based on distance measurements.
 
+## Hardware Components
+- **Microcontroller**: CH32V00x (or any compatible microcontroller)
+- **Ultrasonic Sensor**: HC-SR04 or similar
+- **LED**: For visual alert
+- **Resistors**: (if needed for LED)
+- **Jumper Wires**
+- **Breadboard**: (optional for prototyping)
 
+## Software Requirements
+- **PlatformIO**: PlatformIO is an open-source ecosystem for IoT development that integrates seamlessly with Visual Studio Code, providing a powerful environment for building, debugging, and managing embedded projects across various platforms frameworks and programming the microcontroller .
+- **Libraries**: Standard libraries for GPIO and delay functions
 
+|        **Comopents**           |  **Pin**  | **Microcontroller Pin** |                       **Description**                           | 
+|--------------------------------|-----------|-------------------------|-----------------------------------------------------------------|
+| **Ultrasonic Sensor Trigger**  | Pin 4     | GPIOD Pin 4             | Sends trigger pulse to the ultrasonic sensor.                   | 
+| **Ultrasonic Sensor Echo**     | Pin 3     | GPIOD Pin 3             | Receives echo signal from the ultrasonic sensor.                |
+| **LED Indicator**              | Pin 6     | GPIOD Pin 6             | Visual alert indicator that turns on when an object is detected.|
 
+## Circuit Diagram
+![Screenshot 2025-03-17 160211](https://github.com/user-attachments/assets/eedd62bf-8d41-4001-bab5-11e5084a1916)
 
+## Project Code
 
+#include <ch32v00x.h>
+#include <debug.h>
 
+/* Threshold distance in cm for object detection */
+#define OBJECT_DETECTION_THRESHOLD 10
 
+/* Function to configure GPIO Pins */
+void GPIO_Config(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
 
+    // Pin 3: Input for Ultrasonic sensor echo
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Input with Pull-Up
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
+    // Pin 4: Output for Ultrasonic sensor trigger
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
+    // Pin 6: LED indicator
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+}
+
+/* Function to trigger the ultrasonic sensor and read the echo duration */
+uint32_t Ultrasonic_Read(void)
+{
+    uint32_t echoTime = 0;
+
+    GPIO_WriteBit(GPIOD, GPIO_Pin_4, SET); // Setting Trigger Pin to send pulses
+    Delay_Us(10); // Pulse Width
+    GPIO_WriteBit(GPIOD, GPIO_Pin_4, RESET); // Resetting Trigger Pin
+
+    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_RESET); // Wait for Echo to go high
+    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_SET) echoTime++; // Measure the time Echo is high
+
+    return echoTime;
+}
+
+/* Function to calculate distance from echo time */
+float Calculate_Distance(uint32_t echoTime)
+{
+    // Speed of sound in air is 340 m/s or 0.034 cm/us
+    // Distance is (time / 2) * speed_of_sound
+    return (echoTime / 2.0) * 0.034;
+}
+
+/* Main function */
+int main(void)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    GPIO_Config();
+    USART_Printf_Init(115200); // Initialize debug USART
+
+    while (1)
+    {
+        uint32_t echoTime = Ultrasonic_Read();
+        float distance = Calculate_Distance(echoTime);
+
+        printf("Distance: %.2f cm\n", distance); // Print the distance
+
+        if (distance < OBJECT_DETECTION_THRESHOLD) // If an object is detected within the threshold
+        {
+            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_SET); // Turn on LED
+        }
+        else
+        {
+            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_RESET); // Turn off LED
+        }
+
+        Delay_Ms(100); // Wait for a short time before the next reading
+    }
+}
 </details>
+
 
 
 
