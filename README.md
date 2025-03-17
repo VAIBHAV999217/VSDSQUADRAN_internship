@@ -1,4 +1,4 @@
-# VSD_RISK V_internship
+# VSD_RISC V_internship
 1-month Research Internship on VSD Squadron Mini based on RISC-V, the board is powered by a CH32V003F4U6 chip with a 32-bit RISC-V core.
  
  Intern Name # Vaibhav Revankar #
@@ -632,6 +632,11 @@ int main(void)
         Delay_Ms(100); // Wait for a short time before the next reading
     }
 }
+
+
+Conclusion and 
+Add Link
+
 </details>
 
 
