@@ -1,7 +1,7 @@
 # VSD_RISC V_internship
 1-month Research Internship on VSD Squadron Mini based on RISC-V, the board is powered by a CH32V003F4U6 chip with a 32-bit RISC-V core.
  
- Intern Name # Vaibhav Revankar #
+ Intern Name # VAIBHAV REVANKAR #
  
  College # SJB INSTITUTE OF TECHNOLOGY #
  
@@ -41,7 +41,7 @@ Run the program and check the results using commands
 gcc sum1ton.c
 ./a.out 
 ````
-result :
+Result :
 
 ![task1_results](https://github.com/user-attachments/assets/498aac41-0006-4d33-991c-06e9cc41a158)
 
@@ -74,7 +74,7 @@ The same commands were run with the -Ofast optimization level instead of -O1, re
 ![task1_riscv2](https://github.com/user-attachments/assets/3d3f7c24-c279-423f-b772-179951334489)
 ![task1_riscv3](https://github.com/user-attachments/assets/53f1aa31-cd9d-43e8-83bc-cf54359fc056)
 
-now we have to locate the main section
+Now,we have to locate the main section
 
     /main
 
@@ -550,92 +550,14 @@ The "Alert System Using Ultrasonic Sensor" is a project designed to detect nearb
 
 ## Project Code
 
-#include <ch32v00x.h>
-#include <debug.h>
+https://drive.google.com/file/d/1PV-E6BF9WCa1V1q02Wis-VGudEkKMPn5/view?usp=drive_link
 
-/* Threshold distance in cm for object detection */
-#define OBJECT_DETECTION_THRESHOLD 10
+## Conclusion:
+This ultrasonic sensor-based system provides a reliable and efficient method for detecting obstacles within a short range. With its simplicity, low cost, and high accuracy, it has vast potential applications in robotics, automotive safety, and home automation.
 
-/* Function to configure GPIO Pins */
-void GPIO_Config(void)
-{
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
+## Video Link
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
-
-    // Pin 3: Input for Ultrasonic sensor echo
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Input with Pull-Up
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-    // Pin 4: Output for Ultrasonic sensor trigger
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-    // Pin 6: LED indicator
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-}
-
-/* Function to trigger the ultrasonic sensor and read the echo duration */
-uint32_t Ultrasonic_Read(void)
-{
-    uint32_t echoTime = 0;
-
-    GPIO_WriteBit(GPIOD, GPIO_Pin_4, SET); // Setting Trigger Pin to send pulses
-    Delay_Us(10); // Pulse Width
-    GPIO_WriteBit(GPIOD, GPIO_Pin_4, RESET); // Resetting Trigger Pin
-
-    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_RESET); // Wait for Echo to go high
-    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_SET) echoTime++; // Measure the time Echo is high
-
-    return echoTime;
-}
-
-/* Function to calculate distance from echo time */
-float Calculate_Distance(uint32_t echoTime)
-{
-    // Speed of sound in air is 340 m/s or 0.034 cm/us
-    // Distance is (time / 2) * speed_of_sound
-    return (echoTime / 2.0) * 0.034;
-}
-
-/* Main function */
-int main(void)
-{
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-    SystemCoreClockUpdate();
-    Delay_Init();
-    GPIO_Config();
-    USART_Printf_Init(115200); // Initialize debug USART
-
-    while (1)
-    {
-        uint32_t echoTime = Ultrasonic_Read();
-        float distance = Calculate_Distance(echoTime);
-
-        printf("Distance: %.2f cm\n", distance); // Print the distance
-
-        if (distance < OBJECT_DETECTION_THRESHOLD) // If an object is detected within the threshold
-        {
-            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_SET); // Turn on LED
-        }
-        else
-        {
-            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_RESET); // Turn off LED
-        }
-
-        Delay_Ms(100); // Wait for a short time before the next reading
-    }
-}
-
-
-Conclusion and 
-Add Link
+https://drive.google.com/file/d/1QhBWCfP1mxr2BG_0U9FBBovQibgId6Oe/view?usp=drive_link
 
 </details>
 
